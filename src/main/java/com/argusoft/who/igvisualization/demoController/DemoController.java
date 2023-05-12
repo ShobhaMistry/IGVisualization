@@ -1,34 +1,37 @@
 package com.argusoft.who.igvisualization.demoController;
 
 import java.io.IOException;
-import java.util.List;
 
 import org.apache.tomcat.util.json.ParseException;
 import org.hl7.fhir.r4.model.PlanDefinition;
+import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.argusoft.resourceProvider.PlanDefinitionResourceProvider;
-import com.argusoft.service.ReadAD;
-import com.argusoft.service.ReadPD;
-import com.argusoft.who.igvisualization.entity.ActivityDefinition;
-import com.argusoft.who.igvisualization.entity.Extension;
+import com.argusoft.who.igvisualization.service.ReadAD;
+import com.argusoft.who.igvisualization.service.ReadPD;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.exc.StreamReadException;
 import com.fasterxml.jackson.databind.DatabindException;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.ser.InstantSerializer;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/")
 public class DemoController {
 
+    @Autowired
     ReadPD readPD = new ReadPD();
+
+    @Autowired
     ReadAD readAD = new ReadAD();
 
-    // @Autowired
-    // PlanDefinitionResourceProvider  planDefinitionResourceProvider = new PlanDefinitionResourceProvider();
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonSerialize(using = InstantSerializer.class)
     PlanDefinition planDefinition = new PlanDefinition();
     
     @GetMapping("/demo")
@@ -38,23 +41,22 @@ public class DemoController {
     }
 
     @GetMapping("/planDefinition")
-    public com.argusoft.who.igvisualization.entity.PlanDefinition getPlanDefinition() throws StreamReadException, DatabindException, IOException, ParseException {
-        System.out.println("in getPlanDefinition");
-        return readPD.getActivityDefinitionFromPD();
+    public String getPlanDefinition() throws StreamReadException, DatabindException, IOException, ParseException {
+        return readPD.getPlanDefinitionFromPD();
     }
 
-    // @GetMapping("/planDefinition/actions")
-    // public List<PlanDefinitionActionComponent> getActions() throws StreamReadException, DatabindException, IOException, ParseException {
-    //     return readPD.getPlanDefinitionFromPD().getAction();
-    // }
+    @GetMapping("/planDefinition/action")
+    public String getActions() throws StreamReadException, DatabindException, IOException, ParseException{
+        return readPD.getActions();
+    }
 
     @GetMapping("/activityDefinition")
-    public ActivityDefinition getActivityDefinition() throws StreamReadException, DatabindException, IOException{
+    public String getActivityDefinition() throws StreamReadException, DatabindException, IOException, ParseException{
         return readAD.getActivityDefinitionFromAD();
     }
 
     @GetMapping("/activityDefinition/questionnaire")
-    public List<Extension> getQuestionnaire() throws StreamReadException, DatabindException, IOException{
-        return readAD.getActivityDefinitionFromAD().getExtension();
+    public String getQuestionnaire() throws StreamReadException, DatabindException, IOException, JSONException, ParseException{
+        return readAD.getQuestionnaire();
     }
 }
