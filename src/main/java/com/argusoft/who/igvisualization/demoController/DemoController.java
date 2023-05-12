@@ -11,11 +11,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.argusoft.who.igvisualization.service.PlanDefinitionService;
 import com.argusoft.who.igvisualization.service.ReadAD;
 import com.argusoft.who.igvisualization.service.ReadPD;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.exc.StreamReadException;
 import com.fasterxml.jackson.databind.DatabindException;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.ser.InstantSerializer;
 
@@ -29,6 +31,9 @@ public class DemoController {
 
     @Autowired
     ReadAD readAD = new ReadAD();
+
+    @Autowired
+    PlanDefinitionService PDS = new PlanDefinitionService();
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @JsonSerialize(using = InstantSerializer.class)
@@ -58,5 +63,10 @@ public class DemoController {
     @GetMapping("/activityDefinition/questionnaire")
     public String getQuestionnaire() throws StreamReadException, DatabindException, IOException, JSONException, ParseException{
         return readAD.getQuestionnaire();
+    }
+
+    @GetMapping("/pd")
+    public JsonNode getPD() throws IOException{
+        return PDS.getPlanDefinition();
     }
 }
