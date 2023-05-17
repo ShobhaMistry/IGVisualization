@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.argusoft.who.igvisualization.service.ActivityDefinitionService;
 import com.argusoft.who.igvisualization.service.PlanDefinitionService;
+import com.argusoft.who.igvisualization.service.QuestionnaireService;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -22,10 +23,13 @@ import com.fasterxml.jackson.datatype.jsr310.ser.InstantSerializer;
 public class DemoController {
 
     @Autowired
-    PlanDefinitionService PDS = new PlanDefinitionService();
+    PlanDefinitionService planDefinitionService = new PlanDefinitionService();
 
     @Autowired
-    ActivityDefinitionService ADS = new ActivityDefinitionService();
+    ActivityDefinitionService activityDefinitionService = new ActivityDefinitionService();
+
+    @Autowired
+    QuestionnaireService questionnaireService = new QuestionnaireService();
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @JsonSerialize(using = InstantSerializer.class)
@@ -39,21 +43,26 @@ public class DemoController {
 
     @GetMapping("/pd")
     public JsonNode getPD() throws IOException {
-        return PDS.getPlanDefinition();
+        return planDefinitionService.getPlanDefinition();
     }
 
     @GetMapping("/pd/actions")
-    public JsonNode getActions() throws IOException {
-        return PDS.getActions();
+    public JsonNode getActionsURL() throws IOException {
+        return planDefinitionService.getActions();
     }
 
     @GetMapping("/ad")
     public JsonNode getActivityDefinition() throws IOException {
-        return ADS.getActivityDefinition();
+        return activityDefinitionService.getActivityDefinition();
     }
 
     @GetMapping("/ad/questionnaire")
-    public JsonNode getQuestionnaire() throws IOException {
-        return ADS.getQuestionnaire();
+    public JsonNode getQuestionnaireURL() throws IOException {
+        return activityDefinitionService.getQuestionnaireURL();
+    }
+
+    @GetMapping("/questionnaire")
+    public JsonNode getQuestionnaire() throws IOException{  
+        return questionnaireService.getQuestionnaire();
     }
 }

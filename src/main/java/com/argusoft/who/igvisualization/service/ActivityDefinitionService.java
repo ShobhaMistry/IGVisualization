@@ -19,7 +19,7 @@ public class ActivityDefinitionService {
         return activityDefinition;
     }
 
-    public JsonNode getQuestionnaire() throws IOException {
+    public JsonNode getQuestionnaireURL() throws IOException {
         JsonNode activityDefinition = mapper.readTree(new File("src/main/resources/static/activityDefinition.json"));
 
         int index = 0;
