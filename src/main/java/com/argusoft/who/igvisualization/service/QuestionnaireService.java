@@ -1,20 +1,35 @@
 package com.argusoft.who.igvisualization.service;
 
-import java.io.File;
-import java.io.IOException;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.argusoft.who.igvisualization.demoController.FileController;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
 public class QuestionnaireService {
-    ObjectMapper mapper = new ObjectMapper();
 
-    public JsonNode getQuestionnaire() throws IOException {
-        JsonNode questionnaire = mapper.readTree(new File("src/main/resources/static/questionnaire.json"));
+    @Autowired
+    public FileController fileController;
 
-        return questionnaire;
+    public JsonNode getQuestionnaire(String ID){
+        int index = 0;
+
+        JsonNode bundle = fileController.getBundle();
+
+        for (JsonNode a : bundle.get("entry")) {
+
+            String resourceType = a.get("resource").get("resourceType").asText();
+            String id = a.get("resource").get("id").asText();
+            index++;
+            
+            if (resourceType.equalsIgnoreCase("Questionnaire") && id.equalsIgnoreCase(ID)) {
+
+                return bundle.get("entry").get(--index);
+
+            }
+            
+        }
+        return null;
     }
 }
