@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.argusoft.who.igvisualization.service.ActivityDefinitionService;
 import com.argusoft.who.igvisualization.service.PlanDefinitionService;
 import com.argusoft.who.igvisualization.service.QuestionnaireService;
+import com.argusoft.who.igvisualization.service.StructureMapService;
 import com.fasterxml.jackson.databind.JsonNode;
 
 @CrossOrigin(origins = "http://localhost:4200")
@@ -28,6 +29,9 @@ public class DemoController {
 
     @Autowired
     QuestionnaireService questionnaireService;
+
+    @Autowired
+    StructureMapService structureMapService;
 
     @GetMapping("/planDefinition")
     public JsonNode getPD() throws IOException {
@@ -52,5 +56,10 @@ public class DemoController {
     @GetMapping("/questionnaire/{id}")
     public JsonNode getQuestionnaireById(@PathVariable String id){  
         return questionnaireService.getQuestionnaireById(id);
+    }
+
+    @GetMapping("/structureMap/{id}")
+    public JsonNode getStructureMapById(@PathVariable String id){
+        return structureMapService.getStructureMapById(id);
     }
 }
