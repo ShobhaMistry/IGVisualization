@@ -1,34 +1,31 @@
 package com.argusoft.who.igvisualization.helper;
 
-import java.io.File;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
+import java.io.InputStream;
 
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 @Component
 public class FileUploadHelper {
 
-    public final String UPLOAD_DIR = "/home/shobha/Desktop/Spring-Boot-Projects/IgVisualization/ig-visualization-web/src/main/resources/static/bundleFiles";
+    public final ObjectMapper mapper = new ObjectMapper();
 
-    public boolean uploadFile(MultipartFile multipartFile) {
-
-        boolean f = false;
+    public JsonNode uploadFile(MultipartFile multipartFile) {
 
         try {
 
-            Files.copy(multipartFile.getInputStream(),
-                    Paths.get(UPLOAD_DIR + File.separator + multipartFile.getOriginalFilename()),
-                    StandardCopyOption.REPLACE_EXISTING);
+            InputStream inputStream = multipartFile.getInputStream();
 
-            f = true;
+            JsonNode bundle = mapper.readTree(inputStream);
+
+            return bundle;
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        return f;
+        return null;
     }
 }

@@ -23,13 +23,13 @@ import com.fasterxml.jackson.datatype.jsr310.ser.InstantSerializer;
 public class DemoController {
 
     @Autowired
-    PlanDefinitionService planDefinitionService = new PlanDefinitionService();
+    PlanDefinitionService planDefinitionService;
 
     @Autowired
-    ActivityDefinitionService activityDefinitionService = new ActivityDefinitionService();
+    ActivityDefinitionService activityDefinitionService;
 
     @Autowired
-    QuestionnaireService questionnaireService = new QuestionnaireService();
+    QuestionnaireService questionnaireService;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @JsonSerialize(using = InstantSerializer.class)

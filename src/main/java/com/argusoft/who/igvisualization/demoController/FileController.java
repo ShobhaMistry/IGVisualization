@@ -3,18 +3,22 @@ package com.argusoft.who.igvisualization.demoController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.argusoft.who.igvisualization.helper.FileUploadHelper;
+import com.fasterxml.jackson.databind.JsonNode;
 
 @RestController
 public class FileController {
 
     @Autowired
     private FileUploadHelper fileUploadHelper;
+
+    JsonNode bundle;
 
     @PostMapping("/file-upload")
     public ResponseEntity<String> uploadFile(@RequestParam("bundle") MultipartFile multipartFile) {
@@ -27,12 +31,10 @@ public class FileController {
             if (!multipartFile.getContentType().equals("application/json")) {
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Only Json file is allowed");
             }
-            
-            boolean f = fileUploadHelper.uploadFile(multipartFile);
 
-            if (f) {
-                return ResponseEntity.ok("File Uploaded Successfully");
-            }
+            bundle = fileUploadHelper.uploadFile(multipartFile);
+
+            return ResponseEntity.ok("File Uploaded Successfully");
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -40,4 +42,15 @@ public class FileController {
 
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Something went wrong!!! Please Try Again");
     }
+
+    @GetMapping("/getBundle")
+    public JsonNode getBundle(){
+        return bundle;
+    }
+
+    public void setBundle(JsonNode bundle) {
+        this.bundle = bundle;
+    }
+
+    
 }
