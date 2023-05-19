@@ -17,7 +17,7 @@ public class ActivityDefinitionService {
 
     public List<JsonNode> activityDefinition = new ArrayList<JsonNode>();
 
-    public List<JsonNode> getActivityDefinition() {
+    public List<JsonNode> getAllActivityDefinition() {
         int index = 0;
 
         JsonNode bundle = fileController.getBundle();
@@ -34,6 +34,27 @@ public class ActivityDefinitionService {
 
         }
         return activityDefinition;
+    }
+
+    public JsonNode getActivityDefinitionById(String ID){
+        int index = 0;
+
+        JsonNode bundle = fileController.getBundle();
+
+        for (JsonNode a : bundle.get("entry")) {
+
+            String resourceType = a.get("resource").get("resourceType").asText();
+            String id = a.get("resource").get("id").asText();
+            index++;
+            
+            if (resourceType.equalsIgnoreCase("ActivityDefinition") && id.equalsIgnoreCase(ID)) {
+
+                return bundle.get("entry").get(--index);
+
+            }
+            
+        }
+        return null;
     }
 
 }

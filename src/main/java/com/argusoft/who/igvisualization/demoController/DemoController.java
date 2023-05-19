@@ -29,23 +29,28 @@ public class DemoController {
     @Autowired
     QuestionnaireService questionnaireService;
 
-    @GetMapping("/pd")
+    @GetMapping("/planDefinition")
     public JsonNode getPD() throws IOException {
         return planDefinitionService.getPlanDefinition();
     }
 
-    @GetMapping("/pd/actions")
+    @GetMapping("/planDefinition/actions")
     public JsonNode getActionsURL() throws IOException {
         return planDefinitionService.getActions();
     }
 
-    @GetMapping("/ad")
-    public List<JsonNode> getActivityDefinition(){
-        return activityDefinitionService.getActivityDefinition();
+    @GetMapping("/activityDefinition")
+    public List<JsonNode> getAllActivityDefinition(){
+        return activityDefinitionService.getAllActivityDefinition();
+    }
+
+    @GetMapping("/activityDefinition/{id}")
+    public JsonNode getActivityDefinitionByID(@PathVariable String id){
+        return activityDefinitionService.getActivityDefinitionById(id);
     }
 
     @GetMapping("/questionnaire/{id}")
-    public JsonNode getQuestionnaire(@PathVariable String id){  
-        return questionnaireService.getQuestionnaire(id);
+    public JsonNode getQuestionnaireById(@PathVariable String id){  
+        return questionnaireService.getQuestionnaireById(id);
     }
 }

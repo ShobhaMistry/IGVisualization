@@ -12,7 +12,7 @@ public class QuestionnaireService {
     @Autowired
     public FileController fileController;
 
-    public JsonNode getQuestionnaire(String ID){
+    public JsonNode getQuestionnaireById(String ID){
         int index = 0;
 
         JsonNode bundle = fileController.getBundle();
