@@ -1,4 +1,4 @@
-package com.argusoft.who.igvisualization.demoController;
+package com.argusoft.who.igvisualization.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

@@ -10,14 +10,14 @@ import com.argusoft.who.igvisualization.controller.FileController;
 import com.fasterxml.jackson.databind.JsonNode;
 
 @Service
-public class ActivityDefinitionService {
-
+public class StructureDefinitionService {
+    
     @Autowired
     public FileController fileController;
 
-    public List<JsonNode> activityDefinition = new ArrayList<JsonNode>();
+    public List<JsonNode> structureDefinition = new ArrayList<JsonNode>();
 
-    public List<JsonNode> getAllActivityDefinition() {
+    public List<JsonNode> getAllStructureDefinition(){
         int index = 0;
 
         JsonNode bundle = fileController.getBundle();
@@ -26,17 +26,18 @@ public class ActivityDefinitionService {
             String resourceType = a.get("resource").get("resourceType").asText();
             index++;
 
-            if (resourceType.equalsIgnoreCase("ActivityDefinition")) {
+            if (resourceType.equalsIgnoreCase("StructureDefinition")) {
 
-                activityDefinition.add(bundle.get("entry").get(--index));
+                System.out.println(a.get("resource").get("resourceType") + " " + a.get("resource").get("id"));
+                structureDefinition.add(bundle.get("entry").get(--index));
 
             }
 
         }
-        return activityDefinition;
+        return structureDefinition;
     }
 
-    public JsonNode getActivityDefinitionById(String ID){
+    public JsonNode getStructureDefinitionById(String ID){
         int index = 0;
 
         JsonNode bundle = fileController.getBundle();
@@ -47,7 +48,7 @@ public class ActivityDefinitionService {
             String id = a.get("resource").get("id").asText();
             index++;
             
-            if (resourceType.equalsIgnoreCase("ActivityDefinition") && id.equalsIgnoreCase(ID)) {
+            if (resourceType.equalsIgnoreCase("StructureDefinition") && id.equalsIgnoreCase(ID)) {
 
                 return bundle.get("entry").get(--index);
 
@@ -56,5 +57,4 @@ public class ActivityDefinitionService {
         }
         return null;
     }
-
 }

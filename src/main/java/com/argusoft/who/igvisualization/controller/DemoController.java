@@ -1,4 +1,4 @@
-package com.argusoft.who.igvisualization.demoController;
+package com.argusoft.who.igvisualization.controller;
 
 import java.io.IOException;
 import java.util.List;
@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.argusoft.who.igvisualization.service.ActivityDefinitionService;
 import com.argusoft.who.igvisualization.service.PlanDefinitionService;
 import com.argusoft.who.igvisualization.service.QuestionnaireService;
+import com.argusoft.who.igvisualization.service.StructureDefinitionService;
 import com.argusoft.who.igvisualization.service.StructureMapService;
 import com.fasterxml.jackson.databind.JsonNode;
 
@@ -32,6 +33,9 @@ public class DemoController {
 
     @Autowired
     StructureMapService structureMapService;
+
+    @Autowired
+    StructureDefinitionService structureDefinitionService;
 
     @GetMapping("/planDefinition")
     public JsonNode getPD() throws IOException {
@@ -61,5 +65,20 @@ public class DemoController {
     @GetMapping("/structureMap/{id}")
     public JsonNode getStructureMapById(@PathVariable String id){
         return structureMapService.getStructureMapById(id);
+    }
+
+    @GetMapping("/targetFromStructureMap/{id}")
+    public List<JsonNode> getTargetFromStructureMap(@PathVariable String id){
+        return structureMapService.getTargetFromStructureMap(id);
+    }
+
+    @GetMapping("/structureDefinition")
+    public List<JsonNode> getAllStructureDefinition(){
+        return structureDefinitionService.getAllStructureDefinition();
+    }
+
+    @GetMapping("/structureDefinition/{id}")
+    public JsonNode getStructureDefinitionById(@PathVariable String id){
+        return structureDefinitionService.getStructureDefinitionById(id);
     }
 }

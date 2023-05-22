@@ -3,7 +3,7 @@ package com.argusoft.who.igvisualization.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.argusoft.who.igvisualization.demoController.FileController;
+import com.argusoft.who.igvisualization.controller.FileController;
 import com.fasterxml.jackson.databind.JsonNode;
 
 @Service
