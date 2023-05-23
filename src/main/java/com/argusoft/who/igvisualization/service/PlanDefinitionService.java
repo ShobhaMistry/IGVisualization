@@ -13,17 +13,15 @@ public class PlanDefinitionService {
     public FileController fileController;
 
     public JsonNode getPlanDefinition(){
-        int index = 0;
 
         JsonNode bundle = fileController.getBundle();
         for (JsonNode a : bundle.get("entry")) {
 
             String resourceType = a.get("resource").get("resourceType").asText();
-            index++;
             
             if (resourceType.equalsIgnoreCase("PlanDefinition")) {
 
-                return bundle.get("entry").get(--index);
+                return a;
 
             }
         }

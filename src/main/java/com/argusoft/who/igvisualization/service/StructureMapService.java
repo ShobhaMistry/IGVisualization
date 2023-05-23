@@ -17,8 +17,28 @@ public class StructureMapService {
 
     public List<JsonNode> target = new ArrayList<JsonNode>();
 
-    public JsonNode getStructureMapById(String ID){
-        int index = 0;
+    public List<JsonNode> structureMap = new ArrayList<JsonNode>();
+
+    public List<JsonNode> getAllStructureMap() {
+        // int index = 0;
+
+        JsonNode bundle = fileController.getBundle();
+        for (JsonNode a : bundle.get("entry")) {
+
+            String resourceType = a.get("resource").get("resourceType").asText();
+            // index++;
+
+            if (resourceType.equalsIgnoreCase("StructureMap")) {
+
+                structureMap.add(a);
+
+            }
+
+        }
+        return structureMap;
+    }
+
+    public JsonNode getStructureMapById(String ID) {
 
         JsonNode bundle = fileController.getBundle();
 
@@ -26,28 +46,25 @@ public class StructureMapService {
 
             String resourceType = a.get("resource").get("resourceType").asText();
             String id = a.get("resource").get("id").asText();
-            index++;
-            
+
             if (resourceType.equalsIgnoreCase("StructureMap") && id.equalsIgnoreCase(ID)) {
 
-                return bundle.get("entry").get(--index);
-
+                return a;
             }
-            
+
         }
         return null;
     }
 
-    public List<JsonNode> getTargetFromStructureMap(String ID){
-        int index = 0;
+    public List<JsonNode> getTargetFromStructureMap(String ID) {
+
         JsonNode structureMap = getStructureMapById(ID);
 
-        for (JsonNode a : structureMap.get("resource").get("structure")){
+        for (JsonNode a : structureMap.get("resource").get("structure")) {
 
             String mode = a.get("mode").asText();
-            index++;
 
-            if(mode.equalsIgnoreCase("target")){
+            if (mode.equalsIgnoreCase("target")) {
                 target.add(a);
             }
         }

@@ -1,5 +1,8 @@
 package com.argusoft.who.igvisualization.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,9 +14,27 @@ public class QuestionnaireService {
 
     @Autowired
     public FileController fileController;
+    
+    public List<JsonNode> questionnaire = new ArrayList<JsonNode>();
+
+    public List<JsonNode> getAllQuestionnaire() {
+
+        JsonNode bundle = fileController.getBundle();
+        for (JsonNode a : bundle.get("entry")) {
+
+            String resourceType = a.get("resource").get("resourceType").asText();
+
+            if (resourceType.equalsIgnoreCase("Questionnaire")) {
+
+                questionnaire.add(a);
+
+            }
+
+        }
+        return questionnaire;
+    }
 
     public JsonNode getQuestionnaireById(String ID){
-        int index = 0;
 
         JsonNode bundle = fileController.getBundle();
 
@@ -21,11 +42,10 @@ public class QuestionnaireService {
 
             String resourceType = a.get("resource").get("resourceType").asText();
             String id = a.get("resource").get("id").asText();
-            index++;
             
             if (resourceType.equalsIgnoreCase("Questionnaire") && id.equalsIgnoreCase(ID)) {
 
-                return bundle.get("entry").get(--index);
+                return a;
 
             }
             

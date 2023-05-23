@@ -10,31 +10,31 @@ import com.argusoft.who.igvisualization.controller.FileController;
 import com.fasterxml.jackson.databind.JsonNode;
 
 @Service
-public class StructureDefinitionService {
-
+public class LibraryService {
+  
     @Autowired
     public FileController fileController;
 
-    public List<JsonNode> structureDefinition = new ArrayList<JsonNode>();
+    public List<JsonNode> library = new ArrayList<JsonNode>();
 
-    public List<JsonNode> getAllStructureDefinition() {
+    public List<JsonNode> getAllLibrary() {
 
         JsonNode bundle = fileController.getBundle();
         for (JsonNode a : bundle.get("entry")) {
 
             String resourceType = a.get("resource").get("resourceType").asText();
 
-            if (resourceType.equalsIgnoreCase("StructureDefinition")) {
+            if (resourceType.equalsIgnoreCase("Library")) {
 
-                structureDefinition.add(a);
+                library.add(a);
 
             }
 
         }
-        return structureDefinition;
+        return library;
     }
 
-    public JsonNode getStructureDefinitionById(String ID) {
+    public JsonNode getLibraryById(String ID) {
 
         JsonNode bundle = fileController.getBundle();
 
@@ -43,7 +43,7 @@ public class StructureDefinitionService {
             String resourceType = a.get("resource").get("resourceType").asText();
             String id = a.get("resource").get("id").asText();
 
-            if (resourceType.equalsIgnoreCase("StructureDefinition") && id.equalsIgnoreCase(ID)) {
+            if (resourceType.equalsIgnoreCase("Library") && id.equalsIgnoreCase(ID)) {
 
                 return a;
 
@@ -52,4 +52,5 @@ public class StructureDefinitionService {
         }
         return null;
     }
+  
 }
