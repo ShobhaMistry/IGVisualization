@@ -15,9 +15,9 @@ public class ValueSetService {
     @Autowired
     public FileController fileController;
 
-    public List<JsonNode> valueSet = new ArrayList<JsonNode>();
-
+    
     public List<JsonNode> getAllValueSet() {
+        List<JsonNode> valueSet = new ArrayList<JsonNode>();
 
         JsonNode bundle = fileController.getBundle();
         for (JsonNode a : bundle.get("entry")) {

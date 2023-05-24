@@ -15,9 +15,9 @@ public class StructureDefinitionService {
     @Autowired
     public FileController fileController;
 
-    public List<JsonNode> structureDefinition = new ArrayList<JsonNode>();
-
+    
     public List<JsonNode> getAllStructureDefinition() {
+        List<JsonNode> structureDefinition = new ArrayList<JsonNode>();
 
         JsonNode bundle = fileController.getBundle();
         for (JsonNode a : bundle.get("entry")) {

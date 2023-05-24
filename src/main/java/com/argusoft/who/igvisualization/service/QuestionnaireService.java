@@ -15,10 +15,10 @@ public class QuestionnaireService {
     @Autowired
     public FileController fileController;
     
-    public List<JsonNode> questionnaire = new ArrayList<JsonNode>();
-
+    
     public List<JsonNode> getAllQuestionnaire() {
-
+        List<JsonNode> questionnaire = new ArrayList<JsonNode>();
+        
         JsonNode bundle = fileController.getBundle();
         for (JsonNode a : bundle.get("entry")) {
 

@@ -15,9 +15,9 @@ public class ActivityDefinitionService {
     @Autowired
     public FileController fileController;
 
-    public List<JsonNode> activityDefinition = new ArrayList<JsonNode>();
-
+    
     public List<JsonNode> getAllActivityDefinition() {
+         List<JsonNode> activityDefinition = new ArrayList<JsonNode>();
 
         JsonNode bundle = fileController.getBundle();
         for (JsonNode a : bundle.get("entry")) {

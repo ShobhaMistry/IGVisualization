@@ -15,11 +15,10 @@ public class StructureMapService {
     @Autowired
     public FileController fileController;
 
-    public List<JsonNode> target = new ArrayList<JsonNode>();
 
-    public List<JsonNode> structureMap = new ArrayList<JsonNode>();
-
+    
     public List<JsonNode> getAllStructureMap() {
+        List<JsonNode> structureMap = new ArrayList<JsonNode>();
         // int index = 0;
 
         JsonNode bundle = fileController.getBundle();
@@ -57,7 +56,7 @@ public class StructureMapService {
     }
 
     public List<JsonNode> getTargetFromStructureMap(String ID) {
-
+        List<JsonNode> target = new ArrayList<JsonNode>();
         JsonNode structureMap = getStructureMapById(ID);
 
         for (JsonNode a : structureMap.get("resource").get("structure")) {

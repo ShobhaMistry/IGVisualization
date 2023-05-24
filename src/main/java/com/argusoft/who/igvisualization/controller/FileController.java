@@ -23,6 +23,8 @@ public class FileController {
     @PostMapping("/file-upload")
     public ResponseEntity<String> uploadFile(@RequestParam("bundle") MultipartFile multipartFile) {
 
+        bundle = null;
+    
         try {
             if (multipartFile.isEmpty()) {
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Request must contain a file");
@@ -31,7 +33,7 @@ public class FileController {
             if (!multipartFile.getContentType().equals("application/json")) {
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Only Json file is allowed");
             }
-
+            System.out.println(multipartFile);
             bundle = fileUploadHelper.uploadFile(multipartFile);
 
             return ResponseEntity.ok("File Uploaded Successfully");

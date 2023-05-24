@@ -15,9 +15,9 @@ public class LibraryService {
     @Autowired
     public FileController fileController;
 
-    public List<JsonNode> library = new ArrayList<JsonNode>();
-
+    
     public List<JsonNode> getAllLibrary() {
+        List<JsonNode> library = new ArrayList<JsonNode>();
 
         JsonNode bundle = fileController.getBundle();
         for (JsonNode a : bundle.get("entry")) {

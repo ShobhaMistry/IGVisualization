@@ -12,12 +12,11 @@ public class CodeSystemService {
     @Autowired
     public FileController fileController;
 
-    public JsonNode codeSystem;
-
-    public JsonNode codes;
-
+    
+    
     public JsonNode getAllCode() {
-
+        JsonNode codeSystem = null;
+        
         JsonNode bundle = fileController.getBundle();
         for (JsonNode a : bundle.get("entry")) {
 
@@ -29,12 +28,13 @@ public class CodeSystemService {
                 codeSystem = a;
                 
             }
-
+            
         }
         return codeSystem.get("resource").get("concept");
     }
     
     public JsonNode getCodeById(String ID) {
+        JsonNode codes = null;
         
         codes = getAllCode();
         for(JsonNode a : codes){

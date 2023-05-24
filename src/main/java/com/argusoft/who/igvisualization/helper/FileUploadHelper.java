@@ -13,13 +13,17 @@ public class FileUploadHelper {
 
     public final ObjectMapper mapper = new ObjectMapper();
 
+    
     public JsonNode uploadFile(MultipartFile multipartFile) {
+       
+        JsonNode bundle =null;
+        InputStream inputStream = null;
 
         try {
 
-            InputStream inputStream = multipartFile.getInputStream();
+            inputStream = multipartFile.getInputStream();
 
-            JsonNode bundle = mapper.readTree(inputStream);
+            bundle = mapper.readTree(inputStream);
 
             return bundle;
 
