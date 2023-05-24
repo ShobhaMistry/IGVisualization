@@ -36,7 +36,6 @@ public class FileController {
             if (!multipartFile.getContentType().equals("application/json")) {
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Only Json file is allowed");
             }
-            System.out.println(multipartFile);
             bundle = fileUploadHelper.uploadFile(multipartFile);
 
             return ResponseEntity.ok("File Uploaded Successfully");
