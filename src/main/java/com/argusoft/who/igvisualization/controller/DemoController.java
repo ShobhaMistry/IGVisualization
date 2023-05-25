@@ -59,6 +59,11 @@ public class DemoController {
         return planDefinitionService.getActions();
     }
 
+    @GetMapping("/planDefinition/actions/{id}")
+    public JsonNode getActionById(@PathVariable String id){
+        return planDefinitionService.getActionById(id);
+    }
+
     @GetMapping("/activityDefinition")
     public List<JsonNode> getAllActivityDefinition() {
         return activityDefinitionService.getAllActivityDefinition();

@@ -36,4 +36,19 @@ public class PlanDefinitionService {
         
     }
 
+    public JsonNode getActionById(String ID){
+        JsonNode actions = null;
+
+        actions = getActions();
+        for(JsonNode a : actions){
+            
+            String id = a.get("id").asText();
+
+            if(id.equalsIgnoreCase(ID)){
+                return a;
+            }
+        }
+        return null;
+    }
+
 }
