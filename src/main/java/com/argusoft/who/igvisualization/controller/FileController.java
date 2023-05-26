@@ -1,5 +1,6 @@
 package com.argusoft.who.igvisualization.controller;
 
+import com.argusoft.who.igvisualization.utils.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,27 +25,28 @@ public class FileController {
     JsonNode bundle;
 
     @PostMapping("/file-upload")
-    public ResponseEntity<String> uploadFile(@RequestParam("bundle") MultipartFile multipartFile) {
+    public ResponseEntity<Response<String>> uploadFile(@RequestParam("bundle") MultipartFile multipartFile) {
 
         bundle = null;
     
         try {
             if (multipartFile.isEmpty()) {
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Request must contain a file");
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new Response<>(HttpStatus.INTERNAL_SERVER_ERROR,"Internal Seerver Error",new String("Internal Server error")));
             }
 
             if (!multipartFile.getContentType().equals("application/json")) {
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Only Json file is allowed");
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new Response<>(HttpStatus.INTERNAL_SERVER_ERROR,"Internal Seerver Error",new String("Only Json file is allowed")));
             }
             bundle = fileUploadHelper.uploadFile(multipartFile);
 
-            return ResponseEntity.ok("File Uploaded Successfully");
+            return ResponseEntity.ok(new Response<>(HttpStatus.OK,"File Uploaded Successfully",new String("File Uploaded Successfully")));
 
         } catch (Exception e) {
             e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new Response<>(HttpStatus.INTERNAL_SERVER_ERROR,"Internal Seerver Error",new String("Something went wrong!!! Please Try Again")));
         }
 
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Something went wrong!!! Please Try Again");
+
     }
 
     @GetMapping("/getBundle")

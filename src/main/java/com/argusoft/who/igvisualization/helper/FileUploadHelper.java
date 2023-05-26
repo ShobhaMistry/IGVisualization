@@ -16,7 +16,7 @@ public class FileUploadHelper {
     
     public JsonNode uploadFile(MultipartFile multipartFile) {
        
-        JsonNode bundle =null;
+        JsonNode bundle=null;
         InputStream inputStream = null;
 
         try {
