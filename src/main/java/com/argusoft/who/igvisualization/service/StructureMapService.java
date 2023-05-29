@@ -19,13 +19,11 @@ public class StructureMapService {
     
     public List<JsonNode> getAllStructureMap() {
         List<JsonNode> structureMap = new ArrayList<JsonNode>();
-        // int index = 0;
 
         JsonNode bundle = fileController.getBundle();
         for (JsonNode a : bundle.get("entry")) {
 
             String resourceType = a.get("resource").get("resourceType").asText();
-            // index++;
 
             if (resourceType.equalsIgnoreCase("StructureMap")) {
 
