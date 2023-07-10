@@ -23,7 +23,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/")
-public class DemoController {
+public class ResourceController {
 
     @Autowired
     PlanDefinitionService planDefinitionService;
@@ -50,18 +50,25 @@ public class DemoController {
     CodeSystemService codeSystemService;
 
     @GetMapping("/planDefinition")
-    public JsonNode getPD() throws IOException {
+    public List<JsonNode> getPD() throws IOException {
         return planDefinitionService.getPlanDefinition();
     }
 
-    @GetMapping("/planDefinition/actions")
-    public JsonNode getActionsURL() throws IOException {
-        return planDefinitionService.getActions();
+    @GetMapping("/planDefinition/{id}")
+    public JsonNode getPlanDefinitonById(@PathVariable String id){
+        return planDefinitionService.getPlanDefinitionById(id);
     }
 
-    @GetMapping("/planDefinition/actions/{id}")
-    public JsonNode getActionById(@PathVariable String id){
-        return planDefinitionService.getActionById(id);
+
+
+    @GetMapping("/planDefinition/{pdId}/actions")
+    public JsonNode getActionsURL(@PathVariable String pdId) throws IOException {
+        return planDefinitionService.getActions(pdId);
+    }
+
+    @GetMapping("/planDefinition/{pdId}/actions/{id}")
+    public JsonNode getActionById(@PathVariable String pdId,@PathVariable String id){
+        return planDefinitionService.getActionById(pdId,id);
     }
 
     @GetMapping("/activityDefinition")
