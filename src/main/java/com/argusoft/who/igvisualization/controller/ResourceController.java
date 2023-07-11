@@ -3,6 +3,7 @@ package com.argusoft.who.igvisualization.controller;
 import java.io.IOException;
 import java.util.List;
 
+import com.argusoft.who.igvisualization.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,14 +11,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.argusoft.who.igvisualization.service.ActivityDefinitionService;
-import com.argusoft.who.igvisualization.service.CodeSystemService;
-import com.argusoft.who.igvisualization.service.LibraryService;
-import com.argusoft.who.igvisualization.service.PlanDefinitionService;
-import com.argusoft.who.igvisualization.service.QuestionnaireService;
-import com.argusoft.who.igvisualization.service.StructureDefinitionService;
-import com.argusoft.who.igvisualization.service.StructureMapService;
-import com.argusoft.who.igvisualization.service.ValueSetService;
 import com.fasterxml.jackson.databind.JsonNode;
 
 @CrossOrigin(origins = "http://localhost:4200")
@@ -49,6 +42,19 @@ public class ResourceController {
     @Autowired
     CodeSystemService codeSystemService;
 
+    @Autowired
+    ResourceService resourceService;
+
+    @GetMapping("/allResources")
+    public List<String> getAllResources(){
+        return resourceService.getAllResources();
+    }
+
+    @GetMapping("/getResource/{selectedResource}")
+    public List<JsonNode> getResource(@PathVariable String selectedResource){
+        return resourceService.getResource(selectedResource);
+    }
+
     @GetMapping("/planDefinition")
     public List<JsonNode> getPD() throws IOException {
         return planDefinitionService.getPlanDefinition();
@@ -58,8 +64,6 @@ public class ResourceController {
     public JsonNode getPlanDefinitonById(@PathVariable String id){
         return planDefinitionService.getPlanDefinitionById(id);
     }
-
-
 
     @GetMapping("/planDefinition/{pdId}/actions")
     public JsonNode getActionsURL(@PathVariable String pdId) throws IOException {
