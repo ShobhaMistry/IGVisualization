@@ -2,6 +2,7 @@ package com.argusoft.who.igvisualization.controller;
 
 import java.util.List;
 
+import com.argusoft.who.igvisualization.dto.ResourceDto;
 import com.argusoft.who.igvisualization.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -24,6 +25,9 @@ public class ResourceController {
     public List<String> getAllResources(){
         return resourceService.getAllResources();
     }
+
+    @GetMapping("/allResourceCount")
+    public List<ResourceDto> getAllResourceCount(){ return resourceService.getCountForResources();}
 
     @GetMapping("/getResource/{selectedResource}")
     public List<JsonNode> getResource(@PathVariable String selectedResource){

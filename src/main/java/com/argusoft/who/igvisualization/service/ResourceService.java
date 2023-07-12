@@ -1,6 +1,7 @@
 package com.argusoft.who.igvisualization.service;
 
 import com.argusoft.who.igvisualization.controller.FileController;
+import com.argusoft.who.igvisualization.dto.ResourceDto;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,29 +25,47 @@ public class ResourceService {
             if (allResources.contains(resourceType)){
                 continue;
             }
-            System.out.println(resourceType);
             allResources.add(resourceType);
         }
-        System.out.println("\n\n ALL RESOURCES : " + allResources);
         return allResources;
+    }
+
+    public List<ResourceDto> getCountForResources(){
+
+        List<String> resourceList = getAllResources();
+        List<ResourceDto> allResourceCount = new ArrayList<>();
+        JsonNode bundle = fileController.getBundle();
+
+        for (String resource : resourceList){
+            ResourceDto resourceDto = new ResourceDto();
+            int count = 0;
+
+            for(JsonNode a : bundle.get("entry")){
+                resourceDto.setResourceName(resource);
+                String resourceType = a.get("resource").get("resourceType").asText();
+                if (resourceType.equalsIgnoreCase(resource)){
+                    count += 1;
+                }
+                resourceDto.setResourceCount(count);
+            }
+            allResourceCount.add(resourceDto);
+        }
+
+        return allResourceCount;
     }
 
     public List<JsonNode> getResource(String selectedResourceType){
 
         List<JsonNode> resource = new ArrayList<>();
-
         JsonNode bundle = fileController.getBundle();
+
         for (JsonNode a : bundle.get("entry")) {
-
             String resourceType = a.get("resource").get("resourceType").asText();
-
             if (resourceType.equalsIgnoreCase(selectedResourceType)) {
-
                 resource.add(a);
-
             }
-
         }
+
         return resource;
     }
 
