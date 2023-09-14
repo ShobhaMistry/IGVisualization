@@ -31,7 +31,7 @@ public class FileController {
     
         try {
             if (multipartFile.isEmpty()) {
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new Response<>(HttpStatus.INTERNAL_SERVER_ERROR,"Internal Seerver Error",new String("Internal Server error")));
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new Response<>(HttpStatus.INTERNAL_SERVER_ERROR,"Internal Seerver Error",new String("File is Empty")));
             }
 
             if (!multipartFile.getContentType().equals("application/json")) {
